@@ -20,7 +20,7 @@ def trigger_(event, context):
     bucket_name = event["bucket"]
     blob_name = event["name"]
 
-    storage_client = storage.Client
+    storage_client = storage.Client()
 
     bucket = storage_client.bucket(bucket_name)
     blob = bucket.blob(blob_name)
