@@ -2,6 +2,9 @@ import json
 
 from google.cloud import pubsub_v1, storage
 
+PROJECT = "united-axle-390115"
+TOPIC = "chess-analysis-trigger"
+
 
 def trigger_(event, context):
     """Triggered by a change to a Cloud Storage bucket.
@@ -25,11 +28,9 @@ def trigger_(event, context):
 
     data = json.loads(contents.decode("utf-8"))
 
-    # Compose the topic path
-    topic_path = "projects/united-axle-390115/topics/chess-analysis-trigger"
-
-    # Publish the JSON data as a message
     publisher = pubsub_v1.PublisherClient()
-    publisher.publish(topic_path, data=data.encode('utf-8'))
+
+    topic_path = f"projects/{PROJECT}/topics/{TOPIC}"
+    publisher.publish(topic_path, data=data.encode("utf-8"))
 
     return f"Message published successfully to {topic_path}"
