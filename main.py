@@ -25,12 +25,8 @@ def trigger_(event, context):
 
     data = json.loads(contents.decode("utf-8"))
 
-    # Replace with your actual project ID and topic name
-    project_id = 'united-axle-390115'
-    topic_id = 'chess-analysis-trigger'
-
     # Compose the topic path
-    topic_path = f'projects/{project_id}/topics/{topic_id}'
+    topic_path = "projects/united-axle-390115/topics/chess-analysis-trigger"
 
     # Publish the JSON data as a message
     publisher = pubsub_v1.PublisherClient()
