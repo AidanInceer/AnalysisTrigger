@@ -31,6 +31,6 @@ def analysis_trigger(event, context):
 
     publisher = pubsub_v1.PublisherClient()
     topic_path = f"projects/{PROJECT}/topics/{TOPIC}"
-    publisher.publish(topic_path, data=json.dumps(data))
+    publisher.publish(topic_path, data=json.dumps(data).encode("utf-8"))
 
     return f"Message published successfully to {topic_path}"
