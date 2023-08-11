@@ -26,11 +26,9 @@ def analysis_trigger(event, context):
     blob = bucket.blob(blob_name)
 
     contents = blob.download_as_string()
-    data = json.loads(contents.decode("utf-8"))
-    print(data)
 
     publisher = pubsub_v1.PublisherClient()
     topic_path = f"projects/{PROJECT}/topics/{TOPIC}"
-    publisher.publish(topic_path, data=json.dumps(data).encode("utf-8"))
+    publisher.publish(topic_path, data=contents)
 
     return f"Message published successfully to {topic_path}"
