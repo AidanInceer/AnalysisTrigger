@@ -32,8 +32,8 @@ def trigger_(event, context):
     # Compose the topic path
     topic_path = f'projects/{project_id}/topics/{topic_id}'
 
-    # Publish the JSON data as a message
-    publisher = pubsub_v1.PublisherClient()
-    publisher.publish(topic_path, data=data.encode('utf-8'))
+#     # Publish the JSON data as a message
+#     publisher = pubsub_v1.PublisherClient()
+#     publisher.publish(topic_path, data=data.encode('utf-8'))
 
     return f"Message published successfully to {topic_path}"
