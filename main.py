@@ -6,7 +6,7 @@ PROJECT = "united-axle-390115"
 TOPIC = "chess-analysis-trigger"
 
 
-def trigger_(event, context):
+def analysis_trigger(event, context):
     """Triggered by a change to a Cloud Storage bucket.
     Args:
          event (dict): Event payload.
