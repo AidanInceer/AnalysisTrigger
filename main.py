@@ -1,7 +1,6 @@
 import json
-from io import StringIO
 
-from google.cloud import bigquery, pubsub_v1, storage
+from google.cloud import pubsub_v1, storage
 
 
 def trigger_(event, context):
