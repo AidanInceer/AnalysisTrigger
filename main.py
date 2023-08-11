@@ -34,6 +34,6 @@ def trigger_(event, context):
 
     # Publish the JSON data as a message
     publisher = pubsub_v1.PublisherClient()
-    future = publisher.publish(topic_path, data=data.encode('utf-8'))
+    publisher.publish(topic_path, data=data.encode('utf-8'))
 
     return f"Message published successfully to {topic_path}"
