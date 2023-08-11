@@ -1,4 +1,3 @@
-import json
 
 from google.cloud import pubsub_v1, storage
 
