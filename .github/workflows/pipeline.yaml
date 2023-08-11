@@ -1,0 +1,74 @@
+
+name: Deploy Cloud Function
+
+env:
+  PROJECT: united-axle-390115
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+      - develop
+
+jobs:
+  Build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+
+    - id: Set-Up
+      uses: actions/setup-python@v3
+      with:
+        python-version: "3.9"
+
+    - name: Install Dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install flake8 pytest
+        pip install -r requirements.txt
+
+    - name: Flake8
+      run: |
+        flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics --ignore=E501,W503
+        flake8 . --count --max-complexity=10 --max-line-length=127 --statistics
+
+    - name: Run Pytest
+      run: python -m pytest
+
+  Deploy:
+    needs: Build
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+      id-token: write
+
+    steps:
+    - uses: 'actions/checkout@v3'
+
+    - id: Authenticate-GCP
+      uses: 'google-github-actions/auth@v1'
+      with:
+        credentials_json: '${{ secrets.GOOGLE_CREDENTIALS }}'
+
+    - id: Deploy-GCP
+      uses: google-github-actions/deploy-cloud-functions@main
+      with:
+        name: analysis_trigger
+        region: europe-west2
+        runtime: python39
+        memory_mb: 256
+        project_id:  ${{env.PROJECT}}
+        entry_point: analysis_trigger
+        timeout: 300
+        min_instances: 0
+        max_instances: 10
+        event_trigger_type: google.storage.object.finalize
+        event_trigger_resource: projects/${{env.PROJECT}}/buckets/chess-json-data
+        event_trigger_service: storage.googleapis.com
+  
