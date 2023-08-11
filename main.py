@@ -33,5 +33,5 @@ def trigger_(event, context):
     topic_path = f"projects/{PROJECT}/topics/{TOPIC}"
     publisher.publish(topic_path, data=data.encode("utf-8"))
 
-    # 
+    #
     return f"Message published successfully to {topic_path}"
